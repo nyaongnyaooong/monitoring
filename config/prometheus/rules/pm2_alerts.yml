@@ -1,0 +1,20 @@
+groups:
+- name: pm2_alerts
+  rules:
+  - alert: PM2ProcessDown
+    expr: pm2_up == 0
+    for: 1m
+    labels:
+      severity: critical
+    annotations:
+      summary: "PM2 프로세스 다운 ({{ $labels.name }})"
+      description: "PM2 프로세스 {{ $labels.name }}가 다운되었습니다.\n현재 상태: {{ if eq $value 0.0 }}offline{{ else }}online{{ end }}"
+
+  - alert: PM2HighMemoryUsage
+    expr: pm2_memory_bytes / 1024 / 1024 > 1000
+    for: 5m
+    labels:
+      severity: warning
+    annotations:
+      summary: "PM2 프로세스 높은 메모리 사용량 ({{ $labels.name }})"
+      description: "PM2 프로세스 {{ $labels.name }}의 메모리 사용량이 1GB를 초과했습니다.\n현재 사용량: {{ $value }}MB"

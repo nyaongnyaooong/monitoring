@@ -1,0 +1,38 @@
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+
+alerting:
+  alertmanagers:
+    - static_configs:
+        - targets:
+          - alertmanager:9093
+
+rule_files:
+  - "rules/*.yml"
+  # - "second_rules.yml"
+
+scrape_configs:
+  - job_name: 'prometheus'
+    static_configs:
+      - targets: ['localhost:9090']
+
+  # exporter 추가 예제
+  - job_name: 'exporter-example'
+    static_configs:
+      # exporter 주소
+      - targets: ['0.0.0.0:1234']
+        labels:
+          # 인스턴스명
+          instance: 'exporter-example'
+
+  # pm2 exporter 추가 예제
+  - job_name: 'pm2-example'
+    # pm2 exporter에 Content-Type HTTP 헤더가 없어서 추가
+    fallback_scrape_protocol: "PrometheusText0.0.4"
+    static_configs:
+      # pm2 exporter 주소
+      - targets: ['0.0.0.0:1234']
+        labels:
+          # 인스턴스명
+          instance: 'pm2-example'

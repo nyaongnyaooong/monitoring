@@ -1,0 +1,10 @@
+{
+    "name": "monitoring",
+    "version": "1.0.0",
+    "description": "Monitoring",
+    "scripts": {
+      "docker": "./docker.sh",
+      "permission": "sudo chmod +x *",
+      "auth": "newgrp docker"
+    }
+  } 
